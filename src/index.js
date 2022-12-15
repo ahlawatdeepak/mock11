@@ -15,9 +15,10 @@ app.use(express.json())
 
 app.use(cors())
 
-
 app.get("/",async(req,res)=>{
-     res.send("Hello world")
+    let Dateandtimestamp=new Date().valueOf()
+    console.log(Dateandtimestamp)
+    res.send({Dateandtimestamp:Dateandtimestamp})
 })
 
 
@@ -34,7 +35,10 @@ app.get("/list",async(req,res)=>{
 
 
 app.post("/list",async(req,res)=>{
-    const list = req.body
+   
+    let Dateandtimestamp=new Date().valueOf()
+    let list = {...req.body,Dateandtimestamp}
+    console.log(list)
     try {
        const data = await List.create(list)
        res.send({message:"List added successfully",data:data})
