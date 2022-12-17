@@ -71,26 +71,32 @@ app.get("/list",async(req,res)=>{
     }
 })
 
+app.get("/list",async(req,res)=>{
+     
+    const {page=1,limit=10,sort='asc',filter}=req.query
+    if(filter){
+        console.log(filter)
+        try {
+             let data=await List.find({role:filter}).sort({['postedAt']: sort==='asc' ? 1 : -1}).skip((page-1)*limit).limit(10)
+             res.send({data:data})
+        } catch (error) {
+            res.status(501).send(error.message)
+        }
+    }
+    else{
 
-// app.delete("/list/:id",async(req,res)=>{
-//     let id=req.params.id
-//   try {
-//       id=id.toString()
-//     let data=await List.findByIdAndDelete(id)
-//     if(!data){
-//         res.status(401).send("data not found")
-//     }
-//     else{
-//         res.send("List Deleted Successfully")
-//     }
+        try {
+            const data=await List.find({})
+            .sort({['postedAt']: sort==='asc' ? 1 : -1})
+            .skip((page-1)*limit)
+            .limit(limit)
     
-
-//   } catch (error) {
-//     res.status(401).send(error.message)
-//   }
-
-   
-// })
+            res.send({data:data})
+        } catch (error) {
+            res.status(501).send(error.message)
+        }
+    }
+})
 
 
 
