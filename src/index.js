@@ -56,20 +56,20 @@ app.post("/list",async(req,res)=>{
 
 //  For List data ******************************************
 
-app.get("/list",async(req,res)=>{
+// app.get("/list",async(req,res)=>{
      
-    const {page=1,limit=10,sort='asc'}=req.query
-    try {
-        const data=await List.find({})
-        .sort({['postedAt']: sort==='asc' ? 1 : -1})
-        .skip((page-1)*limit)
-        .limit(limit)
+//     const {page=1,limit=10,sort='asc'}=req.query
+//     try {
+//         const data=await List.find({})
+//         .sort({['postedAt']: sort==='asc' ? 1 : -1})
+//         .skip((page-1)*limit)
+//         .limit(limit)
 
-        res.send({data:data})
-    } catch (error) {
-        res.status(501).send(error.message)
-    }
-})
+//         res.send({data:data})
+//     } catch (error) {
+//         res.status(501).send(error.message)
+//     }
+// })
 
 app.get("/list",async(req,res)=>{
      
