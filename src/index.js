@@ -16,32 +16,32 @@ app.use(express.json())
 app.use(cors())
 
 app.get("/",async(req,res)=>{
-    let Dateandtimestamp=new Date().valueOf()
-    console.log(Dateandtimestamp)
-    res.send({Dateandtimestamp:Dateandtimestamp})
-})
-
-
-//  For List data ******************************************
-
-app.get("/list",async(req,res)=>{
-    try {
-        const data=await List.find()
-        res.send({data:data})
-    } catch (error) {
+     try {
+         let data=await List.find()
+         res.send({data:data})
+        
+     } catch (error) {
         res.status(501).send(error.message)
-    }
+     }
 })
+
 
 
 app.post("/list",async(req,res)=>{
+     
+    const date = new Date();
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
    
-    let Dateandtimestamp=new Date().valueOf()
-    let list = {...req.body,Dateandtimestamp}
+    let postedAt = `${day}-${month}-${year}`
+      console.log(typeof(postedAt))
+    let list = {...req.body,postedAt}
     console.log(list)
     try {
        const data = await List.create(list)
-       res.send({message:"List added successfully",data:data})
+       res.send({message:"Data added successfully",data:data})
     } catch (error) {
         res.status(501).send(error.message)
     }
@@ -50,25 +50,47 @@ app.post("/list",async(req,res)=>{
     
 })
 
-app.delete("/list/:id",async(req,res)=>{
-    let id=req.params.id
-  try {
-      id=id.toString()
-    let data=await List.findByIdAndDelete(id)
-    if(!data){
-        res.status(401).send("data not found")
+
+
+
+
+//  For List data ******************************************
+
+app.get("/list",async(req,res)=>{
+     
+    const {page=1,limit=10,sort='asc'}=req.query
+    try {
+        const data=await List.find({})
+        .sort({['postedAt']: sort==='asc' ? 1 : -1})
+        .skip((page-1)*limit)
+        .limit(limit)
+
+        res.send({data:data})
+    } catch (error) {
+        res.status(501).send(error.message)
     }
-    else{
-        res.send("List Deleted Successfully")
-    }
+})
+
+
+// app.delete("/list/:id",async(req,res)=>{
+//     let id=req.params.id
+//   try {
+//       id=id.toString()
+//     let data=await List.findByIdAndDelete(id)
+//     if(!data){
+//         res.status(401).send("data not found")
+//     }
+//     else{
+//         res.send("List Deleted Successfully")
+//     }
     
 
-  } catch (error) {
-    res.status(401).send(error.message)
-  }
+//   } catch (error) {
+//     res.status(401).send(error.message)
+//   }
 
    
-})
+// })
 
 
 
