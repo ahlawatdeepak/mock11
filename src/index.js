@@ -30,7 +30,7 @@ app.get("/",async(req,res)=>{
 
 function makerandom(length){
       let res=''
-      let characters='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      let characters='abcdefghijklmnopqrstuvwxyz0123456789'
       let n=characters.length
       for(let i=0;i<length;i++){
         res+=characters.charAt(Math.floor(Math.random()*n))
