@@ -67,17 +67,17 @@ app.get('/random',async(req,res)=>{
            if(data[0].level=="low"){
                  let a=Math.floor(Math.random()*5)+1
                 let ran=makerandom(a)
-               res.send({word:ran})
+                res.send({level:data[0].level,word:ran})
            }
            if(data[0].level=="high"){
             let a=Math.floor(Math.random()*15)+9
                  let ran=makerandom(a)
-                 res.send({word:ran})
+                 res.send({level:data[0].level,word:ran})
            }
           if(data[0].level=='medium'){
             let a=Math.floor(Math.random()*10)+5
                   let ran=makerandom(a)
-                  res.send({word:ran})
+                  res.send({level:data[0].level,word:ran})
            }
  
           
